@@ -2,6 +2,9 @@ const exp = require('constants')
 const express = require('express')
 const app = express()
 
+app.use(express.static(__dirname + '/public'))
+app.set('view engine', 'ejs')
+
 const { MongoClient } = require('mongodb')
 
 let db
@@ -41,9 +44,9 @@ app.get('/about', (req, res)=>{
 app.get('/list', async (req, res)=>{
     let posts = await db.collection('post').find().toArray()
     console.log(posts)
-    res.send(posts[0].title)
+    // res.send(posts[0].title)
+    res.render('list.ejs', { posts: posts })
 })
 
 
-app.use(express.static(__dirname + '/public'));
 
