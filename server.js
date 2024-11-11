@@ -13,7 +13,7 @@ new MongoClient(url).connect().then((client)=>{
     app.listen(8080, ()=>{
         console.log('http://localhost:8080에서 서버 실행중')
     })
-    
+
   }).catch((err)=>{
     console.log(err)
   })
@@ -37,6 +37,13 @@ app.get('/',  (req, res)=>{
 app.get('/about', (req, res)=>{
     res.sendFile(__dirname + '/about.html')
 })
+
+app.get('/list', async (req, res)=>{
+    let posts = await db.collection('post').find().toArray()
+    console.log(posts)
+    res.send(posts[0].title)
+})
+
 
 app.use(express.static(__dirname + '/public'));
 
